@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172e2a">
+  <title>Kỳ Quán · Cờ tướng</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23e9c98c'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='40' fill='%239d3029'%3E帥%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css"><script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./" aria-label="Kỳ Quán, trang chủ"><span class="brand-seal">帥</span><span>KỲ QUÁN<small>MỘT BÀN CỜ, VẠN NƯỚC ĐI</small></span></a><span class="top-label">CỜ TƯỚNG <span>•</span> XIANGQI</span><button class="quiet" id="help">Cách chơi</button></header>
+  <main>
+    <section class="arena" aria-label="Bàn chơi cờ tướng">
+      <div class="arena-heading"><div><p class="eyebrow">TĨNH TÂM · ĐẤU TRÍ</p><h1>Mời bạn một ván cờ.</h1></div><span class="game-tag">Cờ tướng 10 × 9</span></div>
+      <div class="player top-player"><span class="avatar black">將</span><div><strong id="top-name">Máy tính</strong><small id="top-detail">Quân Đen</small></div><span class="turn-tag" id="top-turn">Đang chờ</span></div>
+      <div class="board-frame"><svg id="board" viewBox="0 0 540 600" role="group" aria-label="Bàn cờ tướng. Chọn quân rồi chọn điểm đến."></svg></div>
+      <div class="player bottom-player"><span class="avatar red">帥</span><div><strong id="bottom-name">Bạn</strong><small id="bottom-detail">Quân Đỏ · đi trước</small></div><span class="turn-tag" id="bottom-turn">Lượt của bạn</span></div>
+      <p class="board-hint"><span class="hint-dot"></span> Chọn quân của bạn để xem các nước đi hợp lệ.</p>
+    </section>
+    <aside class="sidebar">
+      <section class="status-card"><p class="eyebrow">TRÊN BÀN CỜ</p><div class="status-title"><span id="status-dot"></span><h2 id="status" role="status" aria-live="polite">Đang mở bàn cờ…</h2></div><p id="status-detail">Chọn một quân cờ để bắt đầu.</p><div class="stats"><div><strong id="move-count">00</strong><span>Nước đã đi</span></div><div><strong id="piece-count">32</strong><span>Quân trên bàn</span></div></div></section>
+      <section class="settings"><div class="section-heading"><h2>Thiết lập ván cờ</h2><span>隨心</span></div><fieldset id="settings-fields"><legend class="sr-only">Thiết lập ván mới</legend><label for="mode">Chế độ chơi</label><div class="select-wrap"><select id="mode"><option value="ai">Đấu với máy</option><option value="local">Hai người cùng chơi</option></select></div><div id="ai-settings"><label for="agent">Thuật toán AI</label><div class="select-wrap"><select id="agent"><option value="minimax">Minimax + Alpha-Beta</option><option value="mcts">MCTS + UCT</option><option value="random">Ngẫu nhiên · đối chứng</option></select></div><label for="difficulty">Độ khó</label><div class="select-wrap"><select id="difficulty"><option value="easy">Dễ · Khởi động</option><option value="medium" selected>Vừa · Thử sức</option><option value="hard">Khó · Đấu trí</option></select></div><label for="human">Bạn cầm quân</label><div class="select-wrap"><select id="human"><option value="1">Đỏ · Đi trước</option><option value="-1">Đen · Đi sau</option></select></div></div></fieldset><button class="primary" id="new-game">Bắt đầu ván mới <span>＋</span></button><div class="secondary-actions"><button id="undo">↶ Đi lại</button><button id="flip">⇅ Lật bàn</button></div><p class="settings-note">Thiết lập được áp dụng khi bắt đầu ván mới.</p></section>
+      <section class="history"><div class="section-heading"><h2>Biên bản ván cờ</h2><span id="history-count">0 nước</span></div><ol id="history" aria-label="Lịch sử nước đi"><li class="empty-history"><span>棋</span><p>Mỗi ván cờ bắt đầu<br>từ một nước đi.</p></li></ol><div class="captured"><span>Quân đã bắt</span><div id="captured">Chưa có quân bị bắt</div></div></section>
+    </aside>
+  </main>
+  <footer><span>KỲ QUÁN</span> Chậm một nhịp. Sâu một nước.</footer>
+  <div id="error" role="alert" hidden></div>
+  <dialog id="new-dialog"><p class="eyebrow">MỘT VÁN CỜ MỚI</p><h2>Bắt đầu lại?</h2><p>Ván hiện tại sẽ được thay thế bằng một bàn cờ mới với thiết lập bạn vừa chọn.</p><div class="secondary-actions"><button id="cancel-new">Tiếp tục ván cũ</button><button id="confirm-new">Bắt đầu ván mới</button></div></dialog>
+  <dialog id="help-dialog"><button class="close-dialog" aria-label="Đóng hướng dẫn">×</button><p class="eyebrow">MỘT CHÚT TRƯỚC KHI CHƠI</p><h2>Cách chơi cờ tướng</h2><p>Đỏ đi trước. Bấm quân của bên đến lượt, rồi bấm một điểm được đánh dấu để di chuyển. Vòng tròn là quân có thể ăn.</p><ul><li><b>Tướng</b> đi ngang hoặc dọc một điểm trong cung. Hai Tướng không được nhìn thẳng nhau.</li><li><b>Sĩ</b> đi chéo một điểm trong cung. <b>Tượng</b> đi chéo hai điểm, không qua sông và không bị cản mắt.</li><li><b>Xe</b> đi thẳng; <b>Mã</b> đi hình chữ L, có cản chân.</li><li><b>Pháo</b> đi thẳng, ăn quân bằng cách nhảy qua đúng một quân.</li><li><b>Tốt</b> đi tiến một điểm; qua sông được đi ngang, không được lùi.</li></ul><p>Bạn phải hóa giải khi bị chiếu. Bên hết nước hợp lệ thua, kể cả không bị chiếu. Bản chơi giải trí này xử hòa khi một thế cờ lặp lại ba lần; chưa phân xử luật chiếu đuổi liên tục trong thi đấu.</p><button class="primary close-help">Vào bàn cờ</button></dialog>
+</body></html>
