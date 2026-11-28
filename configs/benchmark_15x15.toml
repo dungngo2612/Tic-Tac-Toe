@@ -1,0 +1,37 @@
+[game]
+board_size = 15
+win_length = 5
+
+[opponent]
+kind = "minimax"
+depth = 2
+radius = 2
+candidate_limit = 6
+
+[mcts]
+c = [0.5, 1.0, 1.4, 2.0]
+radius = 2
+
+[full]
+iterations = [100, 300, 1000, 3000, 5000]
+seeds = [7, 42, 101]
+openings = [[], [112, 113], [112, 97, 111, 128]]
+comparison_iterations = 300
+comparison_seconds = 0.1
+tactical_iterations = 100
+
+[smoke]
+iterations = [8, 16, 32, 64]
+seeds = [7]
+openings = [[112, 113]]
+comparison_iterations = 24
+comparison_seconds = 0.025
+tactical_iterations = 32
+
+[study]
+iterations = [100, 300, 1000, 3000, 5000]
+seeds = [7, 42]
+openings = [[], [112, 113], [112, 97, 111, 128]]
+comparison_iterations = 300
+comparison_seconds = 0.05
+tactical_iterations = 100
